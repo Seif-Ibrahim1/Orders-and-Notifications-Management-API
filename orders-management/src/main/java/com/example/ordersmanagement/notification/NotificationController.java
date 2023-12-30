@@ -1,8 +1,6 @@
 package com.example.ordersmanagement.notification;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Queue;
 
@@ -13,6 +11,12 @@ public class NotificationController {
 
     public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
+    }
+
+    @PostMapping
+    public String addNotification(@RequestBody Notification notification) {
+        notificationService.addNotification(notification);
+        return "Notification added";
     }
 
     @GetMapping

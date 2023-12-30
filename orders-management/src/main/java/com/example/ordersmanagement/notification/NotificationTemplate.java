@@ -68,7 +68,7 @@ public class NotificationTemplate {
         this.placeholders = placeholders;
     }
 
-//    public void send(String message) {
-//        availableChannels.send(message);
-//    }
+    public void sendNotification() {
+        availableChannels.send(new Notification(this));
+    }
 }

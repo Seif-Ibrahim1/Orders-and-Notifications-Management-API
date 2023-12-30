@@ -14,4 +14,8 @@ public class Notification {
     public void setNotificationTemplate(NotificationTemplate notificationTemplate) {
         this.notificationTemplate = notificationTemplate;
     }
+
+    public void sendNotification() {
+        notificationTemplate.sendNotification();
+    }
 }

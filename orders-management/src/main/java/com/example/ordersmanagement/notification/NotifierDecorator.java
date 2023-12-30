@@ -8,7 +8,7 @@ public abstract class NotifierDecorator implements Notifier{
     }
 
     @Override
-    public void send(String message) {
-        wrappee.send(message);
+    public void send(Notification notification) {
+        wrappee.send(notification);
     }
 }

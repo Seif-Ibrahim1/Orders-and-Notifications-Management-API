@@ -15,6 +15,4 @@ public class NotificationQueue {
     public Queue<Notification> getNotifications() {
         return notifications;
     }
-
-
 }

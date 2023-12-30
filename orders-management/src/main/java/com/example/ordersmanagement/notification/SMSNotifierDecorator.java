@@ -7,9 +7,9 @@ public class SMSNotifierDecorator extends NotifierDecorator {
         }
 
         @Override
-        public void send(String message) {
-            super.send(message);
-            System.out.println("Sending SMS: " + message);
+        public void send(Notification notification) {
+            super.send(notification);
+            System.out.println("Sending SMS: " + notification);
 
         }
 }
