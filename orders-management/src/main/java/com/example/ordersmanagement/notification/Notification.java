@@ -1,21 +1,36 @@
 package com.example.ordersmanagement.notification;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Notification {
+    private int id;
     private NotificationTemplate notificationTemplate;
 
-    public Notification(NotificationTemplate notificationTemplate) {
+    public Notification() {}
+
+    public Notification(int id , NotificationTemplate notificationTemplate) {
+        this.id = id;
         this.notificationTemplate = notificationTemplate;
     }
+
+    public int getId() {return id;}
+
+    public void setId(int id) {this.id = id;}
 
     public NotificationTemplate getNotificationTemplate() {
         return notificationTemplate;
     }
 
-    public void setNotificationTemplate(NotificationTemplate notificationTemplate) {
-        this.notificationTemplate = notificationTemplate;
-    }
 
-    public void sendNotification() {
-        notificationTemplate.sendNotification();
+    public void setNotificationTemplate(NotificationTemplate notificationTemplate) {this.notificationTemplate = notificationTemplate;}
+
+    public void sendNotification() {notificationTemplate.sendNotification();}
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "notificationTemplate=" + notificationTemplate +
+                '}';
     }
 }
