@@ -6,19 +6,26 @@ import java.util.List;
 public class NotificationTemplate {
     private int id ;
     private NotificationType type ;
+    private String subject ;
     private String content ;
     private String Language ;
     private Notifier availableChannels ;
     private List<String> placeholders = new ArrayList<>();
 
-    public NotificationTemplate(int id , NotificationType type, String content, String Language, Notifier availableChannels, List<String> placeholders) {
-        this.id = id ;
+    public NotificationTemplate(int id , NotificationType type , String Language , Notifier availableChannels , List<String> placeholders) {
+        this.id = id;
         this.type = type;
-        this.content = content;
         this.Language = Language;
         this.availableChannels = availableChannels;
         this.placeholders = placeholders;
+        type.setTemplate(id , Language , availableChannels , placeholders);
+        setSubjectAndContent();
+        for(int i = 0 ; i < placeholders.size() ; i++){
+            content.replace("%s",placeholders.get(i));
+        }
     }
+
+    public NotificationTemplate() {}
 
     public int getId() {
         return id;
@@ -36,13 +43,13 @@ public class NotificationTemplate {
         this.type = type;
     }
 
-    public String getContent() {
-        return content;
-    }
+    public String getSubject() {return subject;}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public void setSubject(String subject) {this.subject = subject;}
+
+    public String getContent() {return content;}
+
+    public void setContent(String content) {this.content = content;}
 
     public String getLanguage() {
         return Language;
@@ -68,7 +75,39 @@ public class NotificationTemplate {
         this.placeholders = placeholders;
     }
 
-    public void sendNotification() {
-        availableChannels.send(new Notification(this));
+    public void setSubjectAndContent(){
+        switch (type){
+            case PLACED:
+                this.subject = "Order Placed";
+                this.content = "Dear %s , your order %s has been placed successfully";
+                break;
+            case CANCELLED:
+                this.subject = "Order Cancelled";
+                this.content = "Dear %s , your order %s has been cancelled successfully";
+                break;
+            case SHIPPED:
+                this.subject = "Order Shipped";
+                this.content = "Dear %s , your order %s has been shipped successfully to this address %s";
+                break;
+            case SIGNED_UP:
+                this.subject = "Signed Up";
+                this.content = "Dear %s , you have signed up successfully";
+                break;
+        }
+
     }
+    public void sendNotification() {availableChannels.send(this);}
+
+//    @Override
+//    public String toString() {
+//        return "NotificationTemplate{" +
+//                "id=" + id +
+//                ", type=" + type +
+//                ", subject='" + subject + '\'' +
+//                ", content='" + content + '\'' +
+//                ", Language='" + Language + '\'' +
+//                ", availableChannels=" + availableChannels +
+//                ", placeholders=" + placeholders +
+//                '}';
+//    }
 }
