@@ -1,20 +1,20 @@
 package com.example.ordersmanagement.notification;
 
+import com.example.ordersmanagement.db.InMemoryDB;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
 
 @Repository
 public class NotificationRepository {
-//    private Queue<Notification> notifications;
-    private NotificationQueue notifications;
     public void addNotification(Notification notification) {
-        notifications.add(notification);
+        InMemoryDB.getInstance().getNotifications().put(notification.getId(), notification);
     }
 
-    public Queue<Notification> getNotifications() {
-        return notifications.getNotifications();
+    public HashMap<Integer, Notification> getNotifications() {
+        return InMemoryDB.getInstance().getNotifications();
     }
 }
