@@ -1,13 +1,15 @@
 package com.example.ordersmanagement.notification;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EmailNotifierDecorator extends NotifierDecorator{
-    public EmailNotifierDecorator(Notifier notifier) {
-        super(notifier);
-    }
+    @JsonCreator
+    public EmailNotifierDecorator(@JsonProperty("wrappee") Notifier notifier) {super(notifier);}
 
     @Override
-    public void send(Notification notification) {
-        super.send(notification);
-        System.out.println("Sending email notification: " + notification);
+    public void send(NotificationTemplate notificationTemplate) {
+        super.send(notificationTemplate);
+        System.out.println("Sending email notification: " + notificationTemplate);
     }
 }

@@ -1,15 +1,19 @@
 package com.example.ordersmanagement.notification;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class SMSNotifierDecorator extends NotifierDecorator {
 
-        public SMSNotifierDecorator(Notifier notifier) {
+        @JsonCreator
+        public SMSNotifierDecorator(@JsonProperty("wrappee") Notifier notifier) {
             super(notifier);
         }
 
         @Override
-        public void send(Notification notification) {
-            super.send(notification);
-            System.out.println("Sending SMS: " + notification);
+        public void send(NotificationTemplate notificationTemplate) {
+            super.send(notificationTemplate);
+            System.out.println("Sending SMS: " + notificationTemplate);
 
         }
 }
