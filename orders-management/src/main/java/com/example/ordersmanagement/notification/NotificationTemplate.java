@@ -13,6 +13,8 @@ public class NotificationTemplate {
     private String Language ;
     private Notifier availableChannels ;
     private List<String> placeholders = new ArrayList<>();
+    private String email = "";
+    private String phoneNumber = "";
 
     public NotificationTemplate(int id , NotificationType type , String Language , Notifier availableChannels , List<String> placeholders) {
         this.id = id;
@@ -77,39 +79,22 @@ public class NotificationTemplate {
         content = String.format(content, placeholders.toArray());
     }
 
-    // public void setSubjectAndContent(){
-    //     switch (type){
-    //         case PLACED:
-    //             this.subject = "Order Placed";
-    //             this.content = "Dear %s , your order %s has been placed successfully";
-    //             break;
-    //         case CANCELLED:
-    //             this.subject = "Order Cancelled";
-    //             this.content = "Dear %s , your order %s has been cancelled successfully";
-    //             break;
-    //         case SHIPPED:
-    //             this.subject = "Order Shipped";
-    //             this.content = "Dear %s , your order %s has been shipped successfully to this address %s";
-    //             break;
-    //         case SIGNED_UP:
-    //             this.subject = "Signed Up";
-    //             this.content = "Dear %s , you have signed up successfully";
-    //             break;
-    //     }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    // }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public void sendNotification() {availableChannels.send(this);}
 
-//    @Override
-//    public String toString() {
-//        return "NotificationTemplate{" +
-//                "id=" + id +
-//                ", type=" + type +
-//                ", subject='" + subject + '\'' +
-//                ", content='" + content + '\'' +
-//                ", Language='" + Language + '\'' +
-//                ", availableChannels=" + availableChannels +
-//                ", placeholders=" + placeholders +
-//                '}';
-//    }
 }

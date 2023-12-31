@@ -1,35 +1,46 @@
 package com.example.ordersmanagement.account;
 
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
 @Service
 public class AccountService implements AccountServiceInterface {
 
-    public Boolean signUp(Account account) {
+    private final AccountRepository accountRepository;
 
-        if (AccountRepositry.accounts.containsKey(account.getId())) {
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+    public Boolean signUp(Account account) {
+        
+        if (accountRepository.containsKey(account.getId())) {
             System.out.println("Account with ID " + account.getId() + " already exists");
             return false;
         }
 
-        for (Account existingAccount : AccountRepositry.accounts.values()) {
+        for (Account existingAccount : accountRepository.getAccounts()) {
             if (existingAccount.getUsername().equals(account.getUsername())) {
                 System.out.println("Username already exists");
                 return false;
             }
         }
 
-        for (Account existingAccount : AccountRepositry.accounts.values()) {
+        for (Account existingAccount : accountRepository.getAccounts()) {
             if (existingAccount.getEmail().equals(account.getEmail())) {
                 System.out.println("Email already exists");
                 return false;
             }
         }
 
-        AccountRepositry.accounts.put(account.getId(), account);
+        for (Account existingAccount : accountRepository.getAccounts()) {
+            if (existingAccount.getPhoneNumber().equals(account.getPhoneNumber())) {
+                System.out.println("Phone Number already exists");
+                return false;
+            }
+        }
+
+        accountRepository.addAccount(account.getId(), account);
 
         if (account.getAddress().getStreet() == null)
         {
@@ -49,11 +60,17 @@ public class AccountService implements AccountServiceInterface {
             return false;
         }
 
+        if (account.getPhoneNumber() == null)
+        {
+            System.out.println("Phone Number field is Empty");
+            return false;
+        }
+
         return true;
     }
 
     public Account login(String username, String password) {
-        for (Account account : AccountRepositry.accounts.values()) {
+        for (Account account : accountRepository.getAccounts()) {
             if (account.getUsername().equals(username) && account.getPassword().equals(password)) {
                 return account;
             }
@@ -63,11 +80,11 @@ public class AccountService implements AccountServiceInterface {
 
     public Account[] getAllAccounts() {
         try {
-            Set<Integer> ids = AccountRepositry.accounts.keySet();
+            Set<Integer> ids = accountRepository.getAccountIds();
             Account[] a = new Account[ids.size()];
             int i=0;
             for(Integer id : ids){
-                a[i] = AccountRepositry.accounts.get(id);
+                a[i] = accountRepository.getAccount(id);
                 i++;
             }
             return a;
@@ -79,7 +96,7 @@ public class AccountService implements AccountServiceInterface {
 
     public Account getAccount(int id) {
         try {
-            return AccountRepositry.accounts.get(id);
+            return accountRepository.getAccount(id);
         } catch (Exception e) {
             System.out.println("Exception in get account as" + e.getMessage());
         }

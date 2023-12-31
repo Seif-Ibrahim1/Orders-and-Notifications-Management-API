@@ -9,6 +9,7 @@ public class Account {
     private Address address;
     private int id;
     private double balance;
+    private String phoneNumber;
 
     public String getUsername() {
         return username;
@@ -57,5 +58,11 @@ public class Account {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
+
+    public String getPhoneNumber() {return phoneNumber;}
+
+
     
 }

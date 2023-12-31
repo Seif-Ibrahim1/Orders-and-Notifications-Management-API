@@ -1,12 +1,17 @@
 package com.example.ordersmanagement.db;
 
+import com.example.ordersmanagement.account.Account;
+import com.example.ordersmanagement.category.Category;
 import com.example.ordersmanagement.notification.*;
 import com.example.ordersmanagement.order.Order;
+import com.example.ordersmanagement.product.Product;
 
 import java.util.ArrayList;
 //import javax.management.Notification;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class InMemoryDB implements DB {
     private static InMemoryDB instance;
@@ -17,12 +22,17 @@ public class InMemoryDB implements DB {
     protected NotificationTemplate orderedTemplate = new NotificationTemplate();
     protected NotificationTemplate shippedTemplate = new NotificationTemplate();
     protected NotificationTemplate cancelTemplate = new NotificationTemplate();
+    public static Map<Integer, Account> accounts = new HashMap<Integer, Account>();
     // protected NotificationTemplate signUpTemplate = new NotificationTemplate();
     private static int notificationTemplateId = 1;
     private static int notificationId = 1;
+    public static Map<Integer, Product> products = new HashMap<>();
+    public static Map<Integer, Category> categories = new HashMap<>();
 
     private InMemoryDB() {
         orders = new HashMap<Integer, HashMap<Integer, Order>>();
+        
+        
         setOrderedTemplate(getNextNotificationTemplateId(), "ENG",
         new EmailNotifierDecorator(null));
         setShippedTemplate(getNextNotificationTemplateId(), "ENG",
@@ -36,6 +46,35 @@ public class InMemoryDB implements DB {
         templates.put(shippedTemplate.getId(), shippedTemplate);
         templates.put(cancelTemplate.getId(), cancelTemplate);
         // templates.put(signUpTemplate.getId(), signUpTemplate);
+
+        Category electronicsCategory = new Category(1, "Electronics");
+        Category clothingCategory = new Category(2, "Clothing");
+        Category sportsCategory = new Category(3, "Sports");
+        Category foodCategory = new Category(4, "Food");
+
+        categories.put(electronicsCategory.getId(), electronicsCategory);
+        categories.put(clothingCategory.getId(), clothingCategory);
+        categories.put(sportsCategory.getId(), sportsCategory);
+        categories.put(foodCategory.getId(), foodCategory);
+
+        // Adding sports products
+        for (int i = 1; i <= 5; i++) {
+            Product sportsProduct = new Product(i, "Sports Product " + i, categories.get(3), 1000 + i, "Vendor " + i, 19.99 * i, 50);
+            products.put(sportsProduct.getId(), sportsProduct);
+
+            // Linking products to categories
+            categories.get(3).getProducts().add(sportsProduct);
+        }
+
+        // Adding food products
+        for (int i = 6; i <= 10; i++) {
+            Product foodProduct = new Product(i, "Food Product " + (i - 5), categories.get(4), 2000 + i, "Vendor " + i, 9.99 * (i - 5), 30);
+
+            products.put(foodProduct.getId(), foodProduct);
+
+            // Linking products to categories
+            categories.get(4).getProducts().add(foodProduct);
+        }
         
     }
 
@@ -151,5 +190,46 @@ public class InMemoryDB implements DB {
 
     public void addNotification(Notification notification) {
         notifications.put(getNextNotificationId(), notification);
+    }
+
+    public Account getAccount(int id) {
+        return accounts.get(id);
+    }
+
+    public void addAccount(int id, Account account) {
+        accounts.put(id, account);
+    }
+
+    public ArrayList<Account> getAccounts() {
+        if(!accounts.isEmpty()){
+            return new ArrayList<>(accounts.values());   
+        }
+        else{
+            return new ArrayList<Account>();
+        }
+    }
+
+    public Set<Integer> getAccountIds() {
+        return accounts.keySet();
+    }
+
+    public Boolean containsKey(int id) {
+        return accounts.containsKey(id);
+    }
+
+    public Category getCategory(int id) {
+        return categories.get(id);
+    }
+
+    public Set<Integer> getCategoryIds() {
+        return categories.keySet();
+    }
+
+    public Product getProduct(int id) {
+        return products.get(id);
+    }
+
+    public Set<Integer> getProductIds() {
+        return products.keySet();
     }
 }

@@ -7,14 +7,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductService implements ProductServiceInterface {
 
+    private final ProductRepositry productRepositry;
+
+    public ProductService(ProductRepositry productRepositry) {
+        this.productRepositry = productRepositry;
+    }
 
     public Product[] getAllProducts() {
         try {
-            Set<Integer> ids = ProductRepositry.products.keySet();
+            Set<Integer> ids = productRepositry.getProductIds();
             Product[] p = new Product[ids.size()];
             int i=0;
             for(Integer id : ids){
-                p[i] = ProductRepositry.products.get(id);
+                p[i] = productRepositry.getProduct(id);
                 i++;
             }
             return p;
@@ -27,7 +32,7 @@ public class ProductService implements ProductServiceInterface {
 
     public Product getProduct(int id) {
         try {
-            return ProductRepositry.products.get(id);
+            return productRepositry.getProduct(id);
         } catch (Exception e) {
             System.out.println("Exception in get product as" + e.getMessage());
         }

@@ -73,7 +73,7 @@ public class OrderService {
             orderRepository.createOrder(customer_id, order);
             order.getCustomer().setBalance(order.getCustomer().getBalance() - (order.getCost() + order.getShipmentFees()));
             System.out.println("Set the same order id to " + order.getId());
-            notificationService.makeOrderPlacedNotification(order.getCustomer().getUsername(), String.valueOf(order.getId()));
+            notificationService.makeOrderPlacedNotification(order.getCustomer().getUsername(), String.valueOf(order.getId()), order.getCustomer().getEmail());
             return "Created order " + order.getId() + " for customer " + customer_id + ".";
         }
 
@@ -111,7 +111,7 @@ public class OrderService {
                 simpleOrder.getCustomer().setBalance(simpleOrder.getCustomer().getBalance() - (o.getCost() + o.getShipmentFees()));
             }
             orderRepository.createOrder(customer_id, order);
-            notificationService.makeOrderPlacedNotification(account.getUsername(), String.valueOf(order.getId()));
+            notificationService.makeOrderPlacedNotification(account.getUsername(), String.valueOf(order.getId()), account.getEmail());
             return "Created order " + order.getId() + " for customer " + customer_id + ".";
         }
 
@@ -148,7 +148,8 @@ public class OrderService {
             orderRepository.updateOrder(customer_id, order_id, order);
             Account account = accountService.getAccount(customer_id);
             
-            notificationService.makeOrderCancelledNotification(account.getUsername(), String.valueOf(order_id));
+            notificationService.makeOrderCancelledNotification(account.getUsername(), String.valueOf(order_id),
+             account.getEmail(), account.getPhoneNumber());
             return "Order " + order_id + " is cancelled.";
 
         }
@@ -159,7 +160,8 @@ public class OrderService {
                 order.setState(OrderState.SHIPPED);
                 orderRepository.updateOrder(customer_id, order_id, order);
                 Account account = accountService.getAccount(customer_id);
-                notificationService.makeOrderShippedNotification(account.getUsername(), String.valueOf(order_id), account.getAddress().getCity());
+                notificationService.makeOrderShippedNotification(account.getUsername(), String.valueOf(order_id),
+                 account.getAddress().getCity(), account.getEmail(), account.getPhoneNumber());
                 return "Order " + order_id + " is shipped.";
             }
 
