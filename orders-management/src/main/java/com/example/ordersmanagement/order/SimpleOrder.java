@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import com.example.ordersmanagement.account.Account;
 import com.example.ordersmanagement.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SimpleOrder extends Order {
     private ArrayList<Product> products;
     private SimpleShipment shipment;
+    private ArrayList<Integer> productIds;
     
 
     public SimpleOrder() {
@@ -44,14 +46,19 @@ public class SimpleOrder extends Order {
         return customer;
     }
 
+
     public ArrayList<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        for (Product product : products) {
-            addProduct(product);
-        }
+    @JsonProperty("products")
+    public void setProductIds(ArrayList<Integer> productIds) {
+        this.productIds = productIds;
+    }
+
+    @JsonIgnore
+    public ArrayList<Integer> getProductIds() {
+        return productIds;
     }
 
     public void notifySubscribers() {
@@ -77,6 +84,17 @@ public class SimpleOrder extends Order {
             cost += product.getPrice();
         }
         return cost;
+    }
+
+    public boolean place() {
+        setShipmentFees(getShipmentFees());
+        setCost(getCost());
+        if(customer.getBalance() < cost + shipmentFees) {
+            return false;
+        }
+        state = OrderState.PLACED;
+        notifySubscribers();
+        return true;
     }
     
 }

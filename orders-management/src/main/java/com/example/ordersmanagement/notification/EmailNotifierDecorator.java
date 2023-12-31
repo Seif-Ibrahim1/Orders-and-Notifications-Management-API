@@ -9,7 +9,12 @@ public class EmailNotifierDecorator extends NotifierDecorator{
 
     @Override
     public void send(NotificationTemplate notificationTemplate) {
-        super.send(notificationTemplate);
         System.out.println("Sending email notification: " + notificationTemplate);
+        super.send(notificationTemplate);
+    }
+
+    @Override
+    public Notifier getWrappee() {
+        return wrappee;
     }
 }

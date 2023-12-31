@@ -86,12 +86,6 @@ public abstract class Order {
         this.subscribers = subscribers;
     }
 
-    public void place() {
-        setShipmentFees(getShipmentFees());
-        setCost(getCost());
-        state = OrderState.PLACED;
-        notifySubscribers();
-        
-    }
+    public abstract boolean place();
 
 }
