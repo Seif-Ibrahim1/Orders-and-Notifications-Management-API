@@ -40,14 +40,18 @@ public class OrderService {
             Account account = accountService.getAccount(customer_id);
             order.setCustomer(account);
 
-            for(Product product : order.getProducts()) {
-                if(productService.getProduct(product.getId()) == null) {
+            // System.out.println("Product ids size are " + order.getProductIds().size());
+            for(int productId : order.getProductIds()) {
+                if(productService.getProduct(productId) == null) {
                     return false;
                 }
                 // check on quantity
-                if(product.getRemainingNum() == 0) {
+                if(productService.getProduct(productId).getRemainingNum() == 0) {
                     return false;
                 }
+
+                Product product = productService.getProduct(productId);
+                order.addProduct(product);
             }
             System.out.println(order.getCustomer().getUsername());
             return true;
@@ -89,6 +93,15 @@ public class OrderService {
 
             Account account = accountService.getAccount(customer_id);
             order.setCustomer(account);
+            for(Order o : order.getOrders()) {
+                SimpleOrder simpleOrder = (SimpleOrder) o;
+                System.out.println("order city " + simpleOrder.getCustomer().getAddress().getCity());
+                System.out.println("customer city " + account.getAddress().getCity());
+                if(simpleOrder.getCustomer().getAddress().getCity().compareTo(account.getAddress().getCity()) != 0) {
+                    return "All orders must be in the same city.";
+                }
+                
+            }
             if(!order.place()) {
                 return "some Customer does not have enough balance.";
             }

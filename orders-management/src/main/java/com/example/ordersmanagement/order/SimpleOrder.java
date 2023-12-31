@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.example.ordersmanagement.account.Account;
 import com.example.ordersmanagement.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SimpleOrder extends Order {
     private ArrayList<Product> products;
@@ -45,10 +46,12 @@ public class SimpleOrder extends Order {
         return customer;
     }
 
+
     public ArrayList<Product> getProducts() {
         return products;
     }
 
+    @JsonProperty("products")
     public void setProductIds(ArrayList<Integer> productIds) {
         this.productIds = productIds;
     }

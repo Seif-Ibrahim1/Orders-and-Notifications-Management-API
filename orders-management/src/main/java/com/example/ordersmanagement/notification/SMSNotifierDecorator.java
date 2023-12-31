@@ -15,4 +15,9 @@ public class SMSNotifierDecorator extends NotifierDecorator {
             System.out.println("Sending SMS: " + notificationTemplate);
             super.send(notificationTemplate);
         }
+
+        @Override
+        public Notifier getWrappee() {
+            return wrappee;
+        }
 }
