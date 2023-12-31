@@ -1,21 +1,25 @@
 package com.example.ordersmanagement.category;
 
-
-import com.example.ordersmanagement.product.Product;
-import com.example.ordersmanagement.product.ProductRepositry;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
 public class CategoryService implements CategoryServiceInterface {
+
+    private final CategoryRepositry categoryRepositry;
+
+    public CategoryService(CategoryRepositry categoryRepositry) {
+        this.categoryRepositry = categoryRepositry;
+    }
+
     public Category[] getAllCategory() {
         try {
-            Set<Integer> ids = CategoryRepositry.categories.keySet();
+            Set<Integer> ids = categoryRepositry.getCategoryIds();
             Category[] c = new Category[ids.size()];
             int i=0;
             for(Integer id : ids){
-                c[i] = CategoryRepositry.categories.get(id);
+                c[i] = categoryRepositry.getCategory(id);
                 i++;
             }
             return c;
@@ -27,7 +31,7 @@ public class CategoryService implements CategoryServiceInterface {
 
     public Category getCategory(int id) {
         try {
-            return CategoryRepositry.categories.get(id);
+            return categoryRepositry.getCategory(id);
         } catch (Exception e) {
             System.out.println("Exception in get category as" + e.getMessage());
         }

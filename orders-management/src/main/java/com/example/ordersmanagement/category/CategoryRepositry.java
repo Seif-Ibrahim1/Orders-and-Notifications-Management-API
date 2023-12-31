@@ -1,30 +1,27 @@
 package com.example.ordersmanagement.category;
 
-import com.example.ordersmanagement.product.Product;
-import com.example.ordersmanagement.product.ProductRepositry;
+import java.util.Set;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.stereotype.Repository;
 
-import com.example.ordersmanagement.category.Category;
+import com.example.ordersmanagement.db.InMemoryDB;
 
 
-
+@Repository
 public class CategoryRepositry {
+    private InMemoryDB inMemoryDB;
 
-    public static Map<Integer, Category> categories = new HashMap<>();
-
-
-    static {
-        Category electronicsCategory = new Category(1, "Electronics");
-        Category clothingCategory = new Category(2, "Clothing");
-        Category sportsCategory = new Category(3, "Sports");
-        Category foodCategory = new Category(4, "Food");
-
-        categories.put(electronicsCategory.getId(), electronicsCategory);
-        categories.put(clothingCategory.getId(), clothingCategory);
-        categories.put(sportsCategory.getId(), sportsCategory);
-        categories.put(foodCategory.getId(), foodCategory);
+    public CategoryRepositry(InMemoryDB inMemoryDB) {
+        this.inMemoryDB = inMemoryDB;
     }
+
+    public Category getCategory(int id) {
+        return inMemoryDB.getCategory(id);
+    }
+    
+
+    public Set<Integer> getCategoryIds() {
+        return inMemoryDB.getCategoryIds();
+    }
+
 }

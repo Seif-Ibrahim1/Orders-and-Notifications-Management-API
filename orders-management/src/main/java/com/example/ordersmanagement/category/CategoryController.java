@@ -1,9 +1,6 @@
 package com.example.ordersmanagement.category;
 
-import com.example.ordersmanagement.account.Account;
-import com.example.ordersmanagement.product.Product;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
