@@ -3,6 +3,8 @@ package com.example.ordersmanagement.order;
 import java.time.*;
 import java.util.ArrayList;
 
+import com.example.ordersmanagement.account.Account;
+import com.example.ordersmanagement.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class Order {

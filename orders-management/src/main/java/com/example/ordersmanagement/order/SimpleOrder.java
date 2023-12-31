@@ -3,6 +3,8 @@ package com.example.ordersmanagement.order;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import com.example.ordersmanagement.account.Account;
+import com.example.ordersmanagement.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SimpleOrder extends Order {

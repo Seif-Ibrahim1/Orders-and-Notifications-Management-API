@@ -3,11 +3,7 @@ package com.example.ordersmanagement.db;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.ordersmanagement.order.Account;
-import com.example.ordersmanagement.order.Address;
-import com.example.ordersmanagement.order.CompoundOrder;
 import com.example.ordersmanagement.order.Order;
-import com.example.ordersmanagement.order.SimpleOrder;
 
 public class InMemoryDB implements DB {
     private static InMemoryDB instance;
@@ -16,31 +12,6 @@ public class InMemoryDB implements DB {
 
     private InMemoryDB() {
         orders = new HashMap<Integer, HashMap<Integer, Order>>();
-        orders.put(1, new HashMap<Integer, Order>());
-        SimpleOrder order = new SimpleOrder();
-        order.setId(getNextOrderId());
-        order.setCustomer(new Account(1, "Seif", new Address()));
-        order.place();
-
-        orders.put(2, new HashMap<Integer, Order>());
-        SimpleOrder order2 = new SimpleOrder();
-        order2.setId(getNextOrderId());
-        order2.setCustomer(new Account(2, "seif2", new Address()));
-        order2.place();
-
-        orders.put(3, new HashMap<Integer, Order>());
-        CompoundOrder compoundOrder = new CompoundOrder();
-        compoundOrder.setId(getNextOrderId());
-        compoundOrder.addOrder(order);
-        compoundOrder.addOrder(order2);
-        compoundOrder.place();
-        
-
-        orders.get(1).put(1, order);
-        orders.get(2).put(2, order2);
-        orders.get(3).put(3, compoundOrder);
-
-
     }
 
     public static InMemoryDB getInstance() {

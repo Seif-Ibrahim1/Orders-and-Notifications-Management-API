@@ -1,4 +1,5 @@
 package com.example.ordersmanagement.order;
+import com.example.ordersmanagement.account.address.Address;
 
 public class CompoundShipment implements Shipment {
     private int capacity;

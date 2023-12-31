@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class OrderService {
 
@@ -20,8 +21,8 @@ public class OrderService {
 
         public String createSimpleOrder(int customer_id, SimpleOrder order) {
             order.setId(orderRepository.getNextOrderId());
-            Account account = new Account(customer_id, "seif", new Address());
-            order.setCustomer(account);
+            
+            // order.setCustomer(account);
             order.place();
             orderRepository.createOrder(customer_id, order);
             return "Created order " + order.getId() + " for customer " + customer_id + ".";
@@ -32,8 +33,8 @@ public class OrderService {
             for(Order o : order.getOrders()) {
                 createSimpleOrder(o.getCustomerId(), (SimpleOrder) o);
             }
-            Account account = new Account(customer_id, "seif", new Address());
-            order.setCustomer(account);
+           
+            // order.setCustomer(account);
             order.place();
             orderRepository.createOrder(customer_id, order);
             return "Created order " + order.getId() + " for customer " + customer_id + ".";
