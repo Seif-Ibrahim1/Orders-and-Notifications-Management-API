@@ -1,15 +1,17 @@
 package com.example.ordersmanagement.order;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class SimpleOrder extends Order {
-    private Account customer;
     private ArrayList<Product> products;
     private SimpleShipment shipment;
+    
 
-
-    public SimpleOrder(int id) {
-        super(id);
+    public SimpleOrder() {
+        super();
         shipment = new SimpleShipment();
         products = new ArrayList<Product>();
     }
@@ -27,6 +29,15 @@ public class SimpleOrder extends Order {
         addSubscriber(customer);
     }
 
+    public void setState(OrderState state) {
+        this.state = state;
+        if(state == OrderState.SHIPPED) {
+            shippedTime = LocalDateTime.now();
+        }
+        notifySubscribers();
+    }
+
+    @JsonIgnore
     public Account getCustomer() { 
         return customer;
     }
@@ -35,12 +46,25 @@ public class SimpleOrder extends Order {
         return products;
     }
 
+    public void setProducts(ArrayList<Product> products) {
+        for (Product product : products) {
+            addProduct(product);
+        }
+    }
+
     public void notifySubscribers() {
-        
+        System.out.println("Notifying subscribers about state " + state);
     }   
 
     public double getShipmentFees() {
+        if(shipmentFees != 0) {
+            return shipmentFees;
+        }
         return shipment.calculateShipmentFees(customer.getAddress());
+    }
+
+    public void setShipmentFees(double shipmentFees) {
+        this.shipmentFees = shipmentFees;
     }
 
     public double getCost() {
@@ -49,6 +73,5 @@ public class SimpleOrder extends Order {
         }
         return cost;
     }
-
     
 }

@@ -9,7 +9,7 @@ public class CompoundShipment implements Shipment {
 
     public double calculateShipmentFees(Address address) {
         // return a random number between 50 and 200
-        return (int)(Math.random() * 150) + 50;
+        return ((int)(Math.random() * 150) + 50) / capacity;
     }
 
     public void setCapacity(int capacity) {

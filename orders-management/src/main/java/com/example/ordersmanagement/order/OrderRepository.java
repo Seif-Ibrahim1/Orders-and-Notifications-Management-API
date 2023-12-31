@@ -19,15 +19,19 @@ public class OrderRepository {
             return inMemoryDB.getOrders(customer_id);
         }
 
-        // public String createOrder(int customer_id, Order order) {
-        //     return 
-        // }
+        public void createOrder(int customer_id, Order order) {
+            inMemoryDB.createOrder(customer_id, order);
+        }
 
-        public String getOrder(int customer_id, int order_id) {
+        public Order getOrder(int customer_id, int order_id) {
             return inMemoryDB.getOrder(customer_id, order_id);
         }
 
-        // public String cancelOrder(int customer_id, int order_id) {
-        //     return 
-        // }
+        public int getNextOrderId() {
+            return inMemoryDB.getNextOrderId();
+        }
+
+        public void updateOrder(int customer_id, int order_id, Order order) {
+            inMemoryDB.updateOrder(customer_id, order_id, order);
+        }
 }
