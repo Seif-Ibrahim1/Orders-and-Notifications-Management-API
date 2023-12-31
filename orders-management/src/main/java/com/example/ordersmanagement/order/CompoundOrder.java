@@ -48,7 +48,11 @@ public class CompoundOrder extends Order {
         System.out.println("orders size is " + orders.size());
         System.out.println("first order is " + orders.get(0));
         System.out.println("Customers are " + orders.get(0).getSubscribers());
-        return shipment.calculateShipmentFees(orders.get(0).getSubscribers().get(0).getAddress());
+        shipmentFees = shipment.calculateShipmentFees(orders.get(0).getSubscribers().get(0).getAddress());
+        System.out.println("shipment fees are " + shipmentFees);
+        System.out.println("subscribers are " + subscribers.size());
+
+        return shipmentFees;
     }
 
     @JsonIgnore
@@ -72,5 +76,21 @@ public class CompoundOrder extends Order {
         }
     }
 
+    public boolean place() {
+
+        for(Order order : orders) {
+            addSubscriber(order.customer);
+        }
+
+        setShipmentFees(getShipmentFees());
+        for (Order order : orders) {
+            if(!order.place()) {
+                return false;
+            }
+        }
+        state = OrderState.PLACED;
+        return true;
+        
+    }
 
 }

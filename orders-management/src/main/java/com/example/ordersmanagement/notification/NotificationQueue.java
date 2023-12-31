@@ -17,6 +17,7 @@ public class NotificationQueue {
 
     public void remove(Notification notification) {
         notifications.remove(notification);
+        notification.sendNotification();
     }
 
     public Queue<Notification> getNotifications() {

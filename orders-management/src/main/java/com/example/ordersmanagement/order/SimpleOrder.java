@@ -78,5 +78,16 @@ public class SimpleOrder extends Order {
         }
         return cost;
     }
+
+    public boolean place() {
+        setShipmentFees(getShipmentFees());
+        setCost(getCost());
+        if(customer.getBalance() < cost + shipmentFees) {
+            return false;
+        }
+        state = OrderState.PLACED;
+        notifySubscribers();
+        return true;
+    }
     
 }

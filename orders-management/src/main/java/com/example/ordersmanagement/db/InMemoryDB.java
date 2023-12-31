@@ -55,10 +55,8 @@ public class InMemoryDB implements DB {
 
     public String createOrder(int customer_id, Order order) {
         if (orders.containsKey(customer_id)) {
-            order.setId(orders.get(customer_id).size()+1);
             orders.get(customer_id).put(order.getId(), order);
         } else {
-            order.setId(1);
             HashMap<Integer, Order> customer_orders = new HashMap<Integer, Order>();
             customer_orders.put(order.getId(), order);
             orders.put(customer_id, customer_orders);
