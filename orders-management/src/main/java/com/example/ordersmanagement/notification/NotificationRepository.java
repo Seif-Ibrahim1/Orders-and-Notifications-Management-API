@@ -7,31 +7,36 @@ import java.util.List;
 
 @Repository
 public class NotificationRepository {
+    private final InMemoryDB inMemoryDB;
+
+    public NotificationRepository(InMemoryDB inMemoryDB) {
+        this.inMemoryDB = inMemoryDB;
+    }
     public void addNotification(Notification notification) {
-        InMemoryDB.getInstance().addNotification(notification);
+        inMemoryDB.addNotification(notification);
     }
 
     public List<Notification> getNotifications() {
-        return InMemoryDB.getInstance().getNotifications();
+        return inMemoryDB.getNotifications();
     }
 
     public NotificationTemplate getOrderedTemplate() {
-        return InMemoryDB.getInstance().getOrderedTemplate();
+        return inMemoryDB.getOrderedTemplate();
     }
 
     public NotificationTemplate getShippedTemplate() {
-        return InMemoryDB.getInstance().getShippedTemplate();
+        return inMemoryDB.getShippedTemplate();
     }
 
     public NotificationTemplate getCancelTemplate() {
-        return InMemoryDB.getInstance().getCancelTemplate();
+        return inMemoryDB.getCancelTemplate();
     }
 
     // public NotificationTemplate getSignUpTemplate() {
-    //     return InMemoryDB.getInstance().getSignUpTemplate();
+    //     return inMemoryDB.getSignUpTemplate();
     // }
 
     public int getNextNotificationId() {
-        return InMemoryDB.getInstance().getNextNotificationId();
+        return inMemoryDB.getNextNotificationId();
     }
 }
