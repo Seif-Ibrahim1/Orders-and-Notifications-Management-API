@@ -52,6 +52,7 @@ public class OrderService {
 
                 Product product = productService.getProduct(productId);
                 order.addProduct(product);
+                
             }
             System.out.println(order.getCustomer().getUsername());
             return true;
@@ -72,6 +73,9 @@ public class OrderService {
             
             orderRepository.createOrder(customer_id, order);
             order.getCustomer().setBalance(order.getCustomer().getBalance() - (order.getCost() + order.getShipmentFees()));
+            order.getProducts().forEach(product -> {
+                product.setRemainingNum(product.getRemainingNum() - 1);
+            });
             System.out.println("Set the same order id to " + order.getId());
             notificationService.makeOrderPlacedNotification(order.getCustomer().getUsername(), String.valueOf(order.getId()), order.getCustomer().getEmail());
             return "Created order " + order.getId() + " for customer " + customer_id + ".";
@@ -109,7 +113,12 @@ public class OrderService {
             for(Order o : order.getOrders()) {
                 SimpleOrder simpleOrder = (SimpleOrder) o;
                 simpleOrder.getCustomer().setBalance(simpleOrder.getCustomer().getBalance() - (o.getCost() + o.getShipmentFees()));
+                simpleOrder.getProducts().forEach(product -> {
+                    product.setRemainingNum(product.getRemainingNum() - 1);
+                });
             }
+
+            
             orderRepository.createOrder(customer_id, order);
             notificationService.makeOrderPlacedNotification(account.getUsername(), String.valueOf(order.getId()), account.getEmail());
             return "Created order " + order.getId() + " for customer " + customer_id + ".";
@@ -136,12 +145,19 @@ public class OrderService {
             if(order.getSubscribers().size() == 1) {
                 Account customer = order.getSubscribers().get(0);
                 customer.setBalance(customer.getBalance() + order.getCost() + order.getShipmentFees());
+                SimpleOrder simpleOrder = (SimpleOrder) order;
+                for(Product product : simpleOrder.getProducts()) {
+                    product.setRemainingNum(product.getRemainingNum() + 1);
+                }
             } else {
                 CompoundOrder compoundOrder = (CompoundOrder) order;
                 for(Order o : compoundOrder.getOrders()) {
                     SimpleOrder simpleOrder = (SimpleOrder) o;
                     Account customer = simpleOrder.getCustomer();
                     customer.setBalance(customer.getBalance() + o.getCost() + o.getShipmentFees());
+                    for(Product product : simpleOrder.getProducts()) {
+                        product.setRemainingNum(product.getRemainingNum() + 1);
+                    }
                 }
             }
 

@@ -1,11 +1,10 @@
 package com.example.ordersmanagement.account;
 
-import com.example.ordersmanagement.account.Account;
+
 import com.example.ordersmanagement.db.InMemoryDB;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.Set;
 
 import org.springframework.stereotype.Repository;
