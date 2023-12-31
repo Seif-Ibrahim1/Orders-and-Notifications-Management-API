@@ -19,12 +19,7 @@ public class NotificationController {
     public String addNotification(@RequestBody Notification notification) {return notificationService.addNotification(notification);}
 
     @GetMapping
-    public HashMap<Integer , Notification> getNotifications() {
-        if(notificationService.getNotifications().isEmpty()) {
-            NotificationTemplate nt = new NotificationTemplate(122 ,NotificationType.CANCELLED ,"en" , new EmailNotifierDecorator(null) , List.of("Shahd" , "12358649"));
-            Notification n = new Notification(123 , nt);
-            InMemoryDB.getInstance().getNotifications().put(n.getId(), n);
-        }
+    public List<Notification> getNotifications() {
         return notificationService.getNotifications();
     }
 }

@@ -2,6 +2,8 @@ package com.example.ordersmanagement.db;
 
 import com.example.ordersmanagement.notification.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 //import javax.management.Notification;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +39,14 @@ public class InMemoryDB implements DB {
         return signUpTemplate;
     }
 
-    public HashMap<Integer, Notification> getNotifications() {
-        return notifications;
+    public List<Notification> getNotifications() {
+
+        if(!notifications.isEmpty()){
+            return (ArrayList<Notification>) notifications.values();
+        }
+        else{
+            return new ArrayList<Notification>();
+        }
     }
 
     public void setNotifications(HashMap<Integer, Notification> notifications) {

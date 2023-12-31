@@ -19,7 +19,7 @@ public class NotificationService {
         return "Notification added";
     }
 
-    public HashMap<Integer, Notification> getNotifications() {
+    public List<Notification> getNotifications() {
         return notificationRepository.getNotifications();
     }
 }

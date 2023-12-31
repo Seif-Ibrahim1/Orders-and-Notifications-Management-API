@@ -14,7 +14,7 @@ public class NotificationRepository {
         InMemoryDB.getInstance().getNotifications().put(notification.getId(), notification);
     }
 
-    public HashMap<Integer, Notification> getNotifications() {
+    public List<Notification> getNotifications() {
         return InMemoryDB.getInstance().getNotifications();
     }
 }
