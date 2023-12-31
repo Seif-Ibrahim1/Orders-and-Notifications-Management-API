@@ -26,7 +26,7 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String> login(@RequestBody String username, @RequestParam String password) {
         Account account = AccountServiceInterface.login(username, password);
         if (account != null) {
             return ResponseEntity.ok("Login successful!");

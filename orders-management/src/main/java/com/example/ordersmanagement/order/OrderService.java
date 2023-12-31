@@ -119,6 +119,19 @@ public class OrderService {
             }
 
             order.setState(OrderState.CANCELLED);
+
+            if(order.getSubscribers().size() == 1) {
+                Account customer = order.getSubscribers().get(0);
+                customer.setBalance(customer.getBalance() + order.getCost() + order.getShipmentFees());
+            } else {
+                CompoundOrder compoundOrder = (CompoundOrder) order;
+                for(Order o : compoundOrder.getOrders()) {
+                    SimpleOrder simpleOrder = (SimpleOrder) o;
+                    Account customer = simpleOrder.getCustomer();
+                    customer.setBalance(customer.getBalance() + o.getCost() + o.getShipmentFees());
+                }
+            }
+
             orderRepository.updateOrder(customer_id, order_id, order);
             Account account = accountService.getAccount(customer_id);
             

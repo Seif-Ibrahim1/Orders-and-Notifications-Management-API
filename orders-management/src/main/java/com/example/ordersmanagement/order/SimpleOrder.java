@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class SimpleOrder extends Order {
     private ArrayList<Product> products;
     private SimpleShipment shipment;
+    private ArrayList<Integer> productIds;
     
 
     public SimpleOrder() {
@@ -48,10 +49,13 @@ public class SimpleOrder extends Order {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        for (Product product : products) {
-            addProduct(product);
-        }
+    public void setProductIds(ArrayList<Integer> productIds) {
+        this.productIds = productIds;
+    }
+
+    @JsonIgnore
+    public ArrayList<Integer> getProductIds() {
+        return productIds;
     }
 
     public void notifySubscribers() {
