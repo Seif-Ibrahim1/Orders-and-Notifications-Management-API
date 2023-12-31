@@ -3,6 +3,8 @@ package com.example.ordersmanagement.notification;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class NotificationTemplate {
     private int id ;
     private NotificationType type ;
@@ -18,8 +20,7 @@ public class NotificationTemplate {
         this.Language = Language;
         this.availableChannels = availableChannels;
         this.placeholders = placeholders;
-        type.setTemplate(id , Language , availableChannels , placeholders);
-        setSubjectAndContent();
+        // setSubjectAndContent();
         for(int i = 0 ; i < placeholders.size() ; i++){
             content.replace("%s",placeholders.get(i));
         }
@@ -67,35 +68,36 @@ public class NotificationTemplate {
         this.availableChannels = availableChannels;
     }
 
+    @JsonIgnore
     public List<String> getPlaceholders() {
         return placeholders;
     }
 
     public void setPlaceholders(List<String> placeholders) {
-        this.placeholders = placeholders;
+        content = String.format(content, placeholders.toArray());
     }
 
-    public void setSubjectAndContent(){
-        switch (type){
-            case PLACED:
-                this.subject = "Order Placed";
-                this.content = "Dear %s , your order %s has been placed successfully";
-                break;
-            case CANCELLED:
-                this.subject = "Order Cancelled";
-                this.content = "Dear %s , your order %s has been cancelled successfully";
-                break;
-            case SHIPPED:
-                this.subject = "Order Shipped";
-                this.content = "Dear %s , your order %s has been shipped successfully to this address %s";
-                break;
-            case SIGNED_UP:
-                this.subject = "Signed Up";
-                this.content = "Dear %s , you have signed up successfully";
-                break;
-        }
+    // public void setSubjectAndContent(){
+    //     switch (type){
+    //         case PLACED:
+    //             this.subject = "Order Placed";
+    //             this.content = "Dear %s , your order %s has been placed successfully";
+    //             break;
+    //         case CANCELLED:
+    //             this.subject = "Order Cancelled";
+    //             this.content = "Dear %s , your order %s has been cancelled successfully";
+    //             break;
+    //         case SHIPPED:
+    //             this.subject = "Order Shipped";
+    //             this.content = "Dear %s , your order %s has been shipped successfully to this address %s";
+    //             break;
+    //         case SIGNED_UP:
+    //             this.subject = "Signed Up";
+    //             this.content = "Dear %s , you have signed up successfully";
+    //             break;
+    //     }
 
-    }
+    // }
     public void sendNotification() {availableChannels.send(this);}
 
 //    @Override

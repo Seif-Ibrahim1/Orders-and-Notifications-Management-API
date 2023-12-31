@@ -1,8 +1,5 @@
 package com.example.ordersmanagement.notification;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Notification {
     private int id;
     private NotificationTemplate notificationTemplate;

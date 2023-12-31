@@ -1,9 +1,7 @@
 package com.example.ordersmanagement.notification;
 
-import com.example.ordersmanagement.db.InMemoryDB;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -11,12 +9,9 @@ import java.util.List;
 public class NotificationController {
     final NotificationService notificationService;
 
-    public NotificationController(NotificationService notificationService) {this.notificationService = notificationService;
-        InMemoryDB.getInstance().setOrderedTemplate(1 , "en" , new EmailNotifierDecorator(null), List.of("Shahd" , "12358649"));
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
-
-    @PostMapping()
-    public String addNotification(@RequestBody Notification notification) {return notificationService.addNotification(notification);}
 
     @GetMapping
     public List<Notification> getNotifications() {
