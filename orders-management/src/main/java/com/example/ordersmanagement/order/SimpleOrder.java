@@ -70,6 +70,9 @@ public class SimpleOrder extends Order {
     }
 
     public double getCost() {
+        if(cost != 0) {
+            return cost;
+        }
         for (Product product : products) {
             cost += product.getPrice();
         }
